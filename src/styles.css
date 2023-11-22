@@ -3,6 +3,7 @@ body {
   padding: 0;
   background: #535353;
   font-family: sans-serif;
+  user-select: none;
 }
 
 .App {
@@ -30,6 +31,10 @@ body {
   padding: 20px;
 }
 
+.App-controls button:hover {
+  cursor: pointer;
+}
+
 .List-item {
   border-bottom: 1px dashed #ccc;
 }
@@ -42,6 +47,7 @@ body {
 
 .Item:hover {
   cursor: pointer;
+  background: rgba(63%, 63%, 63%, 0.5);
 }
 
 .Item_selected {
@@ -49,17 +55,28 @@ body {
   color: #fff;
 }
 
+.Item.Item_selected:hover {
+  background: #75aaf1;
+}
+
 .Item-code {
   padding: 20px 10px 20px 20px;
 }
 
 .Item-title {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: space-between;
   width: 100%;
-  padding: 20px 10px;
+  padding: 20px 40px 20px 10px;
 }
 
 .Item-actions {
   display: flex;
   justify-content: flex-end;
   padding: 20px 20px 20px 10px;
+}
+
+.Item-actions button:hover {
+  cursor: pointer;
 }

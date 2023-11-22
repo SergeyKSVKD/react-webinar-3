@@ -4,6 +4,7 @@
 class Store {
   constructor(initState = {}) {
     this.state = initState;
+    this.state.code = 0
     this.state.lastElementId = this.state.list ? this.state.list[this.state.list.length - 1].code : 0
     this.listeners = []; // Слушатели изменений состояния
   }
@@ -35,22 +36,27 @@ class Store {
    */
   setState(newState) {
     this.state = newState;
+    let lastElementId = this.state.list.length !== 0 ?
+      this.state.list[this.state.list.length - 1].code : 0
     // Вызываем всех слушателей
     for (const listener of this.listeners) listener();
-    this.state.lastElementId = this.state.list.length !== 0 ? this.state.list[this.state.list.length - 1].code : 0
+    this.state.lastElementId = lastElementId
   }
 
   /**
    * Добавление новой записи
    */
   addItem() {
-    this.state.list ?
-      this.setState({
-        list: [...this.state.list, { code: this.state.lastElementId + 1, title: 'Новая запись' }]
-      }) :
-      this.setState({
-        list: [{ code: this.state.lastElementId + 1, title: 'Новая запись' }]
-      })
+    let code = this.state.code >= this.state.lastElementId ?
+      this.state.code += 1 : this.state.lastElementId += 1
+    this.setState({
+      ...this.state,
+      list: this.state.list ? [...this.state.list, {
+        code, title: 'Новая запись'
+      }] : [{
+        code, title: 'Новая запись'
+      }]
+    })
   };
 
   /**
@@ -60,7 +66,9 @@ class Store {
   deleteItem(code) {
     this.state.list ?
       this.setState({
-        list: this.state.list.filter(item => item.code !== code)
+        ...this.state,
+        list: this.state.list.filter(item => item.code !== code),
+        code: this.state.code < code ? code : this.state.code,
       }) : null
   };
 
@@ -69,9 +77,9 @@ class Store {
    * @param code
    */
   selectItem(code) {
-    const selected = document.querySelectorAll('.Item_selected')
-    selected.forEach(el => el.classList.remove('Item_selected'))
+    document.querySelectorAll('.Item_selected').forEach(el => el.classList.remove('Item_selected'))
     this.setState({
+      ...this.state,
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
