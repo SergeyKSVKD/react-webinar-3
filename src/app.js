@@ -1,13 +1,14 @@
 import React from 'react';
-import {createElement} from './utils.js';
 import './styles.css';
+import declination from './helpers'
 
 /**
  * Приложение
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
-function App({store}) {
+function App({ store }) {
+  console.log(store);
 
   const list = store.getState().list;
 
@@ -21,12 +22,12 @@ function App({store}) {
       </div>
       <div className='App-center'>
         <div className='List'>{
-          list.map(item =>
+          list ? list.map(item =>
             <div key={item.code} className='List-item'>
               <div className={'Item' + (item.selected ? ' Item_selected' : '')}
-                   onClick={() => store.selectItem(item.code)}>
+                onClick={() => store.selectItem(item.code)}>
                 <div className='Item-code'>{item.code}</div>
-                <div className='Item-title'>{item.title}</div>
+                <div className='Item-title'>{item.title} {item.count && `Выделяли ${item.count} ${declination(item.count, ['раз', 'раза', 'раз'])}`}</div>
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
                     Удалить
@@ -34,7 +35,8 @@ function App({store}) {
                 </div>
               </div>
             </div>
-          )}
+          ) : null
+        }
         </div>
       </div>
     </div>
