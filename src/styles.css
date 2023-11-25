@@ -64,9 +64,9 @@ body {
 }
 
 .Item-title {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(2, auto);
-  justify-content: space-between;
+  justify-content: space-between; */
   width: 100%;
   padding: 20px 40px 20px 10px;
 }
