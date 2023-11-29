@@ -4,7 +4,7 @@
 class Store {
   constructor(initState = {}) {
     this.state = initState;
-    this.state.basket = [];
+    this.state.basket = { list: [], counter: 0};
     this.state.active_basket = false
     this.listeners = []; // Слушатели изменений состояния
   }
@@ -44,17 +44,21 @@ class Store {
    * Добавление новой записи
    */
   addItemToBasket(item, count) {
-    if (!this.state.basket.find(el => el.title === item.title)) {
+    if (!this.state.basket.list.find(el => el.title === item.title)) {
       this.setState({
         ...this.state,
-        basket: [...this.state.basket, item]
+        basket: {counter: this.state.basket.counter + 1, list: [...this.state.basket.list, item]}
       })
     }
     else {
-      this.state.basket.map(el => {
+      this.state.basket.list.map(el => {
         if (el.title === item.title) {
           el.count = count;
         }
+      })
+      this.setState({
+        ...this.state,
+        basket: {counter: this.state.basket.counter + 1, list: [...this.state.basket.list,]}
       })
     }
   };
@@ -67,7 +71,7 @@ class Store {
     this.setState({
       ...this.state,
       // Новый список, в котором не будет удаляемой записи
-      basket: this.state.basket.filter(item => item.code !== code)
+      basket: {...this.state.basket, list: this.state.basket.list.filter(item => item.code !== code)}
     })
   };
 

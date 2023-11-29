@@ -12,7 +12,7 @@ import PageLayout from "./components/page-layout";
 function App({ store }) {
 
   const list = store.getState().list;
-  const basket = store.getState().basket;
+  const basket = store.getState().basket.list;
   const active_basket = store.getState().active_basket;
 
   const callbacks = {
@@ -38,6 +38,7 @@ function App({ store }) {
         basket={basket}
         active_basket={active_basket}
         activeBasketHandler={callbacks.activeBasketHandler}
+        deleteFromBasket={callbacks.onDeleteItem}
       />
       <List list={list} onAddItem={callbacks.onAddItem} />
     </PageLayout>

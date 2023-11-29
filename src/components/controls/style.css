@@ -1,10 +1,42 @@
 .Controls {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 20px;
   gap: 10px;
 }
 
 .total {
   font-weight: 700;
+}
+
+.icon {
+  position: relative;
+}
+
+.icon_count {
+  position: absolute;
+  width: 24px;
+  text-align: right;
+  top: -4px;
+  left: 15px;
+  color: black;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 10;
+}
+
+.icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.icon::after {
+  content: '★';
+  position: absolute;
+  left: 34px;
+}
+
+.icon:hover {
+  cursor: pointer;
 }

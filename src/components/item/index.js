@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import './style.css';
 
-function Item({ item, onAddItem, basket }) {
+function Item({ item, onAddItem, basket, deleteFromBasket }) {
   let [count, setCount] = useState(0)
 
   const callbacks = {
@@ -10,6 +10,9 @@ function Item({ item, onAddItem, basket }) {
       setCount(count += 1)
       onAddItem(item, count);
     },
+    deleteFromBasket: () => {
+      deleteFromBasket(item.code)
+    }
   }
 
   return (
@@ -25,8 +28,8 @@ function Item({ item, onAddItem, basket }) {
         {basket ? `${item.count ? item.count : 1} шт` : null}
       </div>
       <div className='Item-actions'>
-        <button onClick={callbacks.onAddItem}>
-          Добавить
+        <button onClick={!basket ? callbacks.onAddItem : callbacks.deleteFromBasket}>
+          {!basket ? 'Добавить' : 'Удалить'}
         </button>
       </div>
     </div>
