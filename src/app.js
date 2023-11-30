@@ -29,8 +29,6 @@ function App({ store }) {
     }, [store]),
   }
 
-  console.log(store);
-
   return (
     <PageLayout>
       <Head title='Магазин' />

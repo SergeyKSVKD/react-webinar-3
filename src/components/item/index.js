@@ -44,10 +44,13 @@ Item.propTypes = {
     count: PropTypes.number
   }).isRequired,
   onAddItem: PropTypes.func,
+  deleteFromBasket: PropTypes.func,
 };
 
 Item.defaultProps = {
   onAddItem: () => {
+  },
+  deleteFromBasket: () => {
   },
 }
 

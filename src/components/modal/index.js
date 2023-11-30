@@ -26,7 +26,6 @@ const Modal = ({ active_basket, activeBasketHandler, basket, deleteFromBasket, t
             </div>
             <div className='totalPrice'><span>Итого</span><span>{totalPrice} ₽</span></div>
         </div>
-
     </div>
 }
 
