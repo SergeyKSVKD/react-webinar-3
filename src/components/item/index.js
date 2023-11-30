@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import './style.css';
 
 function Item({ item, onAddItem, basket, deleteFromBasket }) {
-  let [count, setCount] = useState(0)
 
   const callbacks = {
     onAddItem: () => {
-      setCount(count += 1)
-      onAddItem(item, count);
+      onAddItem(item);
     },
     deleteFromBasket: () => {
       deleteFromBasket(item.code)
@@ -51,7 +49,7 @@ Item.defaultProps = {
   onAddItem: () => {
   },
   deleteFromBasket: () => {
-  },
+  }
 }
 
 export default Item;

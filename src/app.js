@@ -20,8 +20,8 @@ function App({ store }) {
       store.deleteItemFromBasket(code);
     }, [store]),
 
-    onAddItem: useCallback((item, count) => {
-      store.addItemToBasket(item, count);
+    onAddItem: useCallback((item) => {
+      store.addItemToBasket(item);
     }, [store]),
 
     activeBasketHandler: useCallback((action) => {
@@ -38,7 +38,11 @@ function App({ store }) {
         activeBasketHandler={callbacks.activeBasketHandler}
         deleteFromBasket={callbacks.onDeleteItem}
       />
-      <List list={list} onAddItem={callbacks.onAddItem} />
+      <List
+        list={list}
+        onAddItem={callbacks.onAddItem}
+        basket={basket}
+      />
     </PageLayout>
   );
 }

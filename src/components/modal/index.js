@@ -21,7 +21,11 @@ const Modal = ({ active_basket, activeBasketHandler, basket, deleteFromBasket, t
             <div className='basket_list'>
                 {basket.map(item =>
                     <div key={item.code}>
-                        <Item item={item} basket={true} deleteFromBasket={deleteFromBasket} />
+                        <Item
+                            item={item}
+                            basket={true}
+                            deleteFromBasket={deleteFromBasket}
+                        />
                     </div>)}
             </div>
             <div className='totalPrice'><span>Итого</span><span>{totalPrice} ₽</span></div>
