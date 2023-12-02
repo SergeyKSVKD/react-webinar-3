@@ -1,3 +1,5 @@
+import { calculate } from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -6,6 +8,8 @@ class Store {
     this.state = initState;
     this.state.basket = { list: [], counter: 0 };
     this.state.active_basket = false
+    this.state.totalPrice = 0
+    this.uniqueProducts = 0
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -43,23 +47,30 @@ class Store {
   /**
    * Добавление новой записи
    */
-  addItemToBasket(item) {
-    if (!this.state.basket.list.find(el => el.title === item.title)) {
-      const newItem = { ...item, count: 1 }
+
+  addItemToBasket(code) {
+    if (!this.state.basket.list.find(el => el.code === code)) {
+      const newItem = { ...this.state.list.find(el => el.code === code), count: 1 }
       this.setState({
         ...this.state,
-        basket: { counter: this.state.basket.counter + 1, list: [...this.state.basket.list, newItem] }
+        basket: { counter: this.state.basket.counter + 1, list: [...this.state.basket.list, newItem] },
+      })
+      this.setState({
+        ...this.state,
+        uniqueProducts: this.state.basket.list.length,
+        totalPrice: calculate(this.state.basket.list),
       })
     }
     else {
       this.state.basket.list.map(el => {
-        if (el.title === item.title) {
+        if (el.code === code) {
           el.count++;
         }
       })
       this.setState({
         ...this.state,
-        basket: { counter: this.state.basket.counter + 1, list: [...this.state.basket.list,] }
+        basket: { counter: this.state.basket.counter + 1, list: [...this.state.basket.list,] },
+        totalPrice: calculate(this.state.basket.list),
       })
     }
   };
@@ -72,14 +83,19 @@ class Store {
     this.setState({
       ...this.state,
       // Новый список, в котором не будет удаляемой записи
-      basket: { ...this.state.basket, list: this.state.basket.list.filter(item => item.code !== code) }
+      basket: { ...this.state.basket, list: this.state.basket.list.filter(item => item.code !== code) },
+    })
+    this.setState({
+      ...this.state,
+      uniqueProducts: this.state.basket.list.length,
+      totalPrice: calculate(this.state.basket.list),
     })
   };
 
   activeBasketHandler(action) {
     this.setState({
       ...this.state,
-      active_basket: this.state.active_basket = action
+      active_basket: this.state.active_basket = action,
     })
   }
 }

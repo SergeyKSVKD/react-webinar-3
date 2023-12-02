@@ -50,3 +50,15 @@ export const generateCode1 = (function (start = 0) {
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : generateCode2.value = 1;
 }
+const priceRub = (price) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ").concat(" ₽")
+// const priceRub = (price) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB" }).format(price)
+
+export function calculate(products) {
+  const totalPrice = products.reduce((acc, item) => {
+    let count = item.count ? item.count : 1
+    return acc + item.price * count
+  }, 0)
+  return priceRub(totalPrice)
+}
+
+

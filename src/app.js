@@ -3,6 +3,8 @@ import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
+import Modal from './components/modal';
+
 
 /**
  * Приложение
@@ -12,16 +14,18 @@ import PageLayout from "./components/page-layout";
 function App({ store }) {
 
   const list = store.getState().list;
-  const basket = store.getState().basket.list;
+  const basket = store.getState().basket.list
   const active_basket = store.getState().active_basket;
+  const totalPrice = store.getState().totalPrice;
+  const uniqueProducts =store.getState().uniqueProducts;
 
   const callbacks = {
     onDeleteItem: useCallback((code) => {
       store.deleteItemFromBasket(code);
     }, [store]),
 
-    onAddItem: useCallback((item) => {
-      store.addItemToBasket(item);
+    onAddItem: useCallback((code) => {
+      store.addItemToBasket(code);
     }, [store]),
 
     activeBasketHandler: useCallback((action) => {
@@ -33,15 +37,23 @@ function App({ store }) {
     <PageLayout>
       <Head title='Магазин' />
       <Controls
-        basket={basket}
-        active_basket={active_basket}
+        uniqueProducts={uniqueProducts}
         activeBasketHandler={callbacks.activeBasketHandler}
-        deleteFromBasket={callbacks.onDeleteItem}
+        totalPrice={totalPrice}
       />
       <List
         list={list}
         onAddItem={callbacks.onAddItem}
+        deleteFromBasket={callbacks.onDeleteItem}
+      />
+      <Modal
+        list={list}
+        active_basket={active_basket}
+        activeBasketHandler={callbacks.activeBasketHandler}
         basket={basket}
+        deleteFromBasket={callbacks.onDeleteItem}
+        onAddItem={callbacks.onAddItem}
+        totalPrice={totalPrice}
       />
     </PageLayout>
   );
