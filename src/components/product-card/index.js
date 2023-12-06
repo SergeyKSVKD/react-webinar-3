@@ -41,7 +41,21 @@ function ProductCard({ addToBasket }) {
 }
 
 ProductCard.propTypes = {
-    title: PropTypes.node,
-};
+    item: PropTypes.shape({
+      _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      title: PropTypes.string,
+      description: PropTypes.string,
+      price: PropTypes.number,
+      madeIn: PropTypes.shape({
+        title: PropTypes.string,
+        code: PropTypes.string
+      }),
+      edition: PropTypes.number,
+      category: PropTypes.shape({
+        title: PropTypes.string,
+      }),
+    }),
+    addToBasket: PropTypes.func,
+  };
 
 export default memo(ProductCard);

@@ -14,8 +14,8 @@ class Catalog extends StoreModule {
     }
   }
 
-  async load() {
-    const response = await fetch('/api/v1/articles');
+  async load(skip = 0) {
+    const response = await fetch(`/api/v1/articles?limit=10&skip=${skip}`);
     const json = await response.json();
     this.setState({
       ...this.getState(),

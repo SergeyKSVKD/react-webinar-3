@@ -1,5 +1,9 @@
 .List {
+  height: 620px;
+}
 
+.BasketList {
+  height: max-content;
 }
 
 .List-item {
