@@ -40,7 +40,7 @@ const Pagination = () => {
         filtered.length > 0 && filtered[0].props.page - 1 === 1 ? null : <Dots key='first'/>,
         ...filtered,
         filtered.length > 0 && filtered[filtered.length - 1].props.page + 1 === pageCount ? null : <Dots key='last'/>,
-        last
+        last,
     ]
 
     return <div className='pagination'>

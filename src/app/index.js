@@ -4,7 +4,6 @@ import BasketTool from '../components/basket-tool';
 import Head from '../components/head';
 import Main from "./main";
 import ProductCard from '../components/product-card'
-import Basket from "./basket";
 import PageLayout from "../components/page-layout"
 import useStore from "../store/use-store";
 import useSelector from "../store/use-selector";
@@ -19,6 +18,7 @@ function App() {
     sum: state.basket.sum
   }));
 
+  const title = useSelector(state => state.catalog.header_text)
   const store = useStore();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function App() {
     publicRoutes.push({
       path: item.path,
       element: <>
-        <Head title='Магазин' />
+        <Head title={title} />
         <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
           sum={select.sum} />
         {item.element}
@@ -67,12 +67,9 @@ function App() {
   
   const router = createBrowserRouter(publicRoutes);
   
-  const activeModal = useSelector(state => state.modals.name);
-  
   return (
     <PageLayout>
       <RouterProvider router={router} />
-      {activeModal === 'basket' && <Basket />}
     </PageLayout>
   );
 }

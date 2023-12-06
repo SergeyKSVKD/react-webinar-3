@@ -10,9 +10,18 @@ class Catalog extends StoreModule {
 
   initState() {
     return {
-      list: []
+      list: [],
+      header_text: 'Магазин'
     }
   }
+
+  changeHeader(title) {
+
+    this.setState({
+        ...this.getState(),
+        header_text: title,
+    }, 'Смена заголовка');
+}
 
   async load(skip = 0) {
     const response = await fetch(`/api/v1/articles?limit=10&skip=${skip}`);
