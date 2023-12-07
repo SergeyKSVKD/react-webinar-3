@@ -75,4 +75,4 @@ ProductCard.propTypes = {
   addToBasket: PropTypes.func,
 };
 
-export default ProductCard;
+export default memo(ProductCard);

@@ -2,7 +2,7 @@ import './style.css';
 import cn from 'classnames'
 import useStore from "../../store/use-store";
 import useSelector from '../../store/use-selector'
-import { useCallback } from 'react';
+import { useCallback, useMemo, memo } from 'react';
 
 const Pagination = () => {
     const store = useStore();
@@ -25,10 +25,14 @@ const Pagination = () => {
         return <div className='dots'>...</div>
     }
 
-    const arr = new Array(pageCount).fill({})
-    const pagination = arr.map((_, i) => {
-        return <PageBtn key={i + 1} page={i + 1} />
-    })
+    const pagination = useMemo(() => {
+        const arr = new Array(pageCount).fill({})
+        const pag = arr.map((_, i) => {
+            return <PageBtn key={i + 1} page={i + 1} />
+        })
+        return pag
+    }, [pageCount, PageBtn])
+
     const filtered = pagination.filter(item => item.props.page <= activePage + siblingCount
         && item.props.page > activePage - siblingCount - 1 && item.props.page !== 1
         && item.props.page !== pageCount)
@@ -37,9 +41,9 @@ const Pagination = () => {
 
     const pag = [
         first,
-        filtered.length > 0 && filtered[0].props.page - 1 === 1 ? null : <Dots key='first'/>,
+        filtered.length > 0 && filtered[0].props.page - 1 === 1 ? null : <Dots key='first' />,
         ...filtered,
-        filtered.length > 0 && filtered[filtered.length - 1].props.page + 1 === pageCount ? null : <Dots key='last'/>,
+        filtered.length > 0 && filtered[filtered.length - 1].props.page + 1 === pageCount ? null : <Dots key='last' />,
         last,
     ]
 
@@ -48,4 +52,4 @@ const Pagination = () => {
     </div>
 }
 
-export default Pagination
+export default memo(Pagination)
