@@ -8,6 +8,7 @@ import './style.css';
 function Item(props) {
 
   const cn = bem('Item');
+  const url = `/products/${props.item._id}`
 
   const callbacks = {
     onAdd: (e) => props.onAdd(props.item._id)
@@ -17,7 +18,7 @@ function Item(props) {
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
-        <Link to={`/products/${props.item._id}`}>{props.item.title}</Link>
+        <Link to={url}>{props.item.title}</Link>
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>

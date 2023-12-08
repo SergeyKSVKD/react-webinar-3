@@ -1,12 +1,9 @@
 import { memo } from "react";
 import PropTypes from 'prop-types';
-import Item from "../item";
 import './style.css';
-import useSelector from "../../store/use-selector";
 import cn from 'classnames'
 
-function List({ list, renderItem }) {
-  const activeModal = useSelector(state => state.modals.name);
+function List({ list, renderItem, activeModal }) {
   return (
     <div className={cn('List', {
       'BasketList': activeModal === 'basket'

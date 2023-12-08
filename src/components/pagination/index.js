@@ -1,22 +1,13 @@
 import './style.css';
 import cn from 'classnames'
-import useStore from "../../store/use-store";
-import useSelector from '../../store/use-selector'
-import { useCallback, useMemo, memo } from 'react';
+import { useMemo, memo } from 'react';
+import PropTypes from "prop-types";
 
-const Pagination = () => {
-    const store = useStore();
-    const activePage = useSelector(state => state.pagination.active_page);
-    const pageCount = useSelector(state => state.pagination.count);
-    const siblingCount = 1
-    const callbacks = {
-        changePage: useCallback(count => store.actions.pagination.changePage(count), [store]),
-    }
+const Pagination = ({ activePage, pageCount, siblingCount = 1, changePage }) => {
 
     const PageBtn = ({ page }) => {
-
         return <div
-            onClick={() => callbacks.changePage(page)}
+            onClick={() => changePage(page)}
             className={cn("page", { "active": activePage === page })}
         >{page}</div>
     }
@@ -26,18 +17,23 @@ const Pagination = () => {
     }
 
     const pagination = useMemo(() => {
-        const arr = new Array(pageCount).fill({})
-        const pag = arr.map((_, i) => {
-            return <PageBtn key={i + 1} page={i + 1} />
-        })
-        return pag
+        const map = new Map()
+        for (let i = 0; i < pageCount; i++) {
+            map.set(`${i}`, <PageBtn key={i + 1} page={i + 1} />)
+        }
+        return map
     }, [pageCount, PageBtn])
 
-    const filtered = pagination.filter(item => item.props.page <= activePage + siblingCount
-        && item.props.page > activePage - siblingCount - 1 && item.props.page !== 1
-        && item.props.page !== pageCount)
-    const first = pagination.filter(item => item.props.page === 1)
-    const last = pagination.filter(item => item.props.page === pageCount)
+    const first = pagination.get("0")
+    const last = pagination.get(`${pageCount - 1}`)
+    const filtered = []
+    pagination.forEach(item => {
+        if (item.props.page <= activePage + siblingCount
+            && item.props.page > activePage - siblingCount - 1 && item.props.page !== 1
+            && item.props.page !== pageCount) {
+            filtered.push(item)
+        }
+    })
 
     const pag = [
         first,
@@ -50,6 +46,18 @@ const Pagination = () => {
     return <div className='pagination'>
         {pag}
     </div>
+}
+
+Pagination.propTypes = {
+    activePage: PropTypes.number.isRequired,
+    pageCount: PropTypes.number.isRequired,
+    siblingCount: PropTypes.number,
+    changePage: PropTypes.func,
+};
+
+Pagination.defaultProps = {
+    siblingCount: 1,
+    changePage: () => { },
 }
 
 export default memo(Pagination)

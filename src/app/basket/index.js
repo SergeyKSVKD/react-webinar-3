@@ -15,6 +15,7 @@ function Basket() {
     amount: state.basket.amount,
     sum: state.basket.sum
   }));
+  const activeModal = useSelector(state => state.modals.name);
 
   const callbacks = {
     // Удаление из корзины
@@ -31,7 +32,11 @@ function Basket() {
 
   return (
     <ModalLayout title='Корзина' onClose={callbacks.closeModal}>
-      <List list={select.list} renderItem={renders.itemBasket} />
+      <List
+        list={select.list}
+        renderItem={renders.itemBasket}
+        activeModal={activeModal}
+      />
       <BasketTotal sum={select.sum} />
     </ModalLayout>
   );

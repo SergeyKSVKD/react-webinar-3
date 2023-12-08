@@ -18,6 +18,7 @@ function App() {
     sum: state.basket.sum
   }));
 
+  const activeModal = useSelector(state => state.modals.name);
   const title = useSelector(state => state.catalog.header_text)
   const store = useStore();
 
@@ -30,6 +31,7 @@ function App() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    changeHeader: useCallback(title => store.actions.catalog.changeHeader(title), [store]),
   }
 
   const routesList = [
@@ -39,7 +41,11 @@ function App() {
     },
     {
       path: "/products/:id",
-      element: <ProductCard addToBasket={callbacks.addToBasket} />,
+      element: <ProductCard
+        addToBasket={callbacks.addToBasket}
+        changeHeader={callbacks.changeHeader}
+        activeModal={activeModal}
+      />,
     },
   ]
 
@@ -57,16 +63,21 @@ function App() {
     publicRoutes.push({
       path: item.path,
       element: <>
-        <Head title={title} />
-        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
-          sum={select.sum} />
+        <Head
+          title={title}
+        />
+        <BasketTool
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
+        />
         {item.element}
       </>
     })
   })
-  
+
   const router = createBrowserRouter(publicRoutes);
-  
+
   return (
     <PageLayout>
       <RouterProvider router={router} />

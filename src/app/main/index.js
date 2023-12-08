@@ -8,6 +8,8 @@ import Basket from "../basket/";
 
 function Main() {
   const activePage = useSelector(state => state.pagination.active_page);
+  const pageCount = useSelector(state => state.pagination.count);
+  const siblingCount = 1
   const select = useSelector(state => ({
     list: state.catalog.list,
   }));
@@ -18,7 +20,10 @@ function Main() {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     loadCount: useCallback(_id => store.actions.pagination.loadCount(), [store]),
+    changePage: useCallback(count => store.actions.pagination.changePage(count), [store]),
   }
+
+
 
   useEffect(() => {
     callbacks.loadCount()
@@ -39,7 +44,12 @@ function Main() {
     <>
       <List list={select.list} renderItem={renders.item} />
       {activeModal === 'basket' && <Basket />}
-      <Pagination />
+      <Pagination
+        activePage={activePage}
+        pageCount={pageCount}
+        siblingCount={siblingCount}
+        changePage={callbacks.changePage}
+      />
     </>
   );
 }

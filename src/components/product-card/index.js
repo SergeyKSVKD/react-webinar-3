@@ -1,15 +1,12 @@
-import { memo, useState, useEffect, useCallback } from "react";
+import { memo, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import './style.css';
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
 import { numberFormat } from '../../utils'
 import Basket from "../../app/basket";
 
-function ProductCard({ addToBasket }) {
+function ProductCard({ addToBasket, changeHeader, activeModal }) {
   const location = useLocation()
-  const store = useStore();
   const [product, setProduct] = useState(null)
   const [language, setLanguage] = useState({
     locale: 'ru-Ru',
@@ -30,17 +27,11 @@ function ProductCard({ addToBasket }) {
     }
   }, [location.pathname])
 
-  const callbacks = {
-    changeHeader: useCallback(title => store.actions.catalog.changeHeader(title), [store]),
-  }
-
-  const activeModal = useSelector(state => state.modals.name);
-
   useEffect(() => {
-    product && callbacks.changeHeader(product.title)
+    product && changeHeader(product.title)
 
-    return () => callbacks.changeHeader('Магазин')
-  })
+    return () => changeHeader('Магазин')
+  }, [product?.title])
 
   return (<>
     {product && <div className='product'>
