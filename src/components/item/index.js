@@ -1,8 +1,8 @@
-import {memo, useState} from "react";
-import { Link } from "react-router-dom"; 
+import { memo } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import {cn as bem} from '@bem-react/classname';
-import {numberFormat} from "../../utils";
+import { cn as bem } from '@bem-react/classname';
+import { numberFormat } from "../../utils";
 import './style.css';
 
 function Item(props) {
@@ -22,7 +22,7 @@ function Item(props) {
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>Добавить</button>
+        {props.status === 'idle' ? <button onClick={callbacks.onAdd}>Добавить</button> : <button>Добавить</button>}
       </div>
     </div>
   );
@@ -38,7 +38,7 @@ Item.propTypes = {
 };
 
 Item.defaultProps = {
-  onAdd: () => {},
+  onAdd: () => { },
 }
 
 export default memo(Item);

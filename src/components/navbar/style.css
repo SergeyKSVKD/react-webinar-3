@@ -1,0 +1,9 @@
+.Navbar a {
+    font-size: 18px;
+    color: #0087E9;
+    text-decoration: underline 2px;
+  }
+
+.Navbar a:hover {
+  cursor: pointer;
+}

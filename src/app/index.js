@@ -20,6 +20,7 @@ function App() {
 
   const activeModal = useSelector(state => state.modals.name);
   const title = useSelector(state => state.catalog.header_text)
+  const product = useSelector(state => state.product.product)
   const store = useStore();
 
   useEffect(() => {
@@ -31,7 +32,10 @@ function App() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    changePage: useCallback(count => store.actions.pagination.changePage(count), [store]),
     changeHeader: useCallback(title => store.actions.catalog.changeHeader(title), [store]),
+    loadProduct: useCallback(id => store.actions.product.loadProduct(id), [store]),
+    cleanProduct: useCallback(() => store.actions.product.cleanProduct(), [store]),
   }
 
   const routesList = [
@@ -43,8 +47,10 @@ function App() {
       path: "/products/:id",
       element: <ProductCard
         addToBasket={callbacks.addToBasket}
-        changeHeader={callbacks.changeHeader}
         activeModal={activeModal}
+        product={product}
+        loadProduct={callbacks.loadProduct}
+        cleanProduct={callbacks.cleanProduct}
       />,
     },
   ]
@@ -65,11 +71,14 @@ function App() {
       element: <>
         <Head
           title={title}
+          changeHeader={callbacks.changeHeader}
+          product={product}
         />
         <BasketTool
           onOpen={callbacks.openModalBasket}
           amount={select.amount}
           sum={select.sum}
+          changePage={callbacks.changePage}
         />
         {item.element}
       </>

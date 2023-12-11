@@ -14,6 +14,7 @@ function Main() {
     list: state.catalog.list,
   }));
   const activeModal = useSelector(state => state.modals.name);
+  const status = useSelector(state => state.basket.status);
 
   const store = useStore();
   const callbacks = {
@@ -36,7 +37,7 @@ function Main() {
 
   const renders = {
     item: useCallback((item) => {
-      return <Item item={item} onAdd={callbacks.addToBasket} />
+      return <Item item={item} onAdd={callbacks.addToBasket} status={status} />
     }, [callbacks.addToBasket]),
   };
 
