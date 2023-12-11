@@ -6,6 +6,7 @@ class Pagination extends StoreModule {
         return {
             active_page: 1,
             count: 0,
+            limit: 10,
         }
     }
 
@@ -18,13 +19,13 @@ class Pagination extends StoreModule {
         }, 'Смена страницы');
     }
 
-    async loadCount() {
-        const response = await fetch(`/api/v1/articles?limit=10&skip=10&fields=items(_id, title, price),count`);
+    async loadCount(limit = 10) {
+        const response = await fetch(`/api/v1/articles?limit=${limit}&skip=10&fields=items(_id, title, price),count`);
         const json = await response.json()
         const count = await json.result.count
         this.setState({
             ...this.getState(),
-            count: Math.ceil(count / 10 ),
+            count: Math.ceil(count / limit ),
         }, 'Общее количество страниц');
     }
 }

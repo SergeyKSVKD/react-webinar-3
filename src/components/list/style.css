@@ -1,9 +1,9 @@
 .List {
-  height: 620px;
+  min-height: 620px;
 }
 
 .BasketList {
-  height: max-content;
+  min-height: auto;
 }
 
 .List-item {

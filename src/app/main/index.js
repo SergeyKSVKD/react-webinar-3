@@ -9,6 +9,7 @@ import Basket from "../basket/";
 function Main() {
   const activePage = useSelector(state => state.pagination.active_page);
   const pageCount = useSelector(state => state.pagination.count);
+  const limit = useSelector(state => state.pagination.limit);
   const siblingCount = 1
   const select = useSelector(state => ({
     list: state.catalog.list,
@@ -20,18 +21,16 @@ function Main() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    loadCount: useCallback(_id => store.actions.pagination.loadCount(), [store]),
+    loadCount: useCallback(limit => store.actions.pagination.loadCount(limit), [store]),
     changePage: useCallback(count => store.actions.pagination.changePage(count), [store]),
   }
 
-
-
   useEffect(() => {
-    callbacks.loadCount()
+    callbacks.loadCount(limit)
   }, [])
 
   useEffect(() => {
-    store.actions.catalog.load((activePage - 1) * 10);
+    store.actions.catalog.load(limit, ((activePage - 1) * limit));
   }, [activePage]);
 
 
