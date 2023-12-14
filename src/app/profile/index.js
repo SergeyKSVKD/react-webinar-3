@@ -8,7 +8,7 @@ import Spinner from "../../components/spinner"
 import useSelector from "../../hooks/use-selector";
 import { useNavigate } from "react-router-dom";
 import useTranslate from "../../hooks/use-translate";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
 function Profile() {
     const token = localStorage.getItem('X-Token')
@@ -49,4 +49,4 @@ function Profile() {
     )
 }
 
-export default Profile;
+export default memo(Profile);

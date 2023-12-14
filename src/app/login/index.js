@@ -19,7 +19,7 @@ function Login() {
     }
 
     const callbacks = {
-        login: useCallback(({ login, password }) => store.actions.user.login({ login, password }), [store]),
+        login: useCallback(({ login, password, navigate }) => store.actions.user.login({ login, password, navigate }), [store]),
     }
 
     const error = useSelector(state => state.user.params.error)

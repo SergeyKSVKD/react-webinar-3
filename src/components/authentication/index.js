@@ -14,16 +14,15 @@ function Authentication({ t, loginHandler, error, token }) {
         e.preventDefault();
         // input debounce
         if (login && password) {
-            loginHandler({ login, password });
+            loginHandler({ login, password, navigate });
         }
     };
 
     useEffect(() => {
-        const localStorageToken = localStorage.getItem('X-Token')
+        const localStorageToken = localStorage.getItem('X-Token') 
         if (token && localStorageToken) {
             setLogin("")
             setPassword("")
-            navigate("/")
         }
     }, [token])
 

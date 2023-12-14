@@ -20,7 +20,7 @@ class UserState extends StoreModule {
         }
     }
 
-    async login({ login, password }) {
+    async login({ login, password, navigate }) {
         this.setState({
             params: {
                 ...this.initState().params,
@@ -55,6 +55,7 @@ class UserState extends StoreModule {
                     auth: true,
                 });
                 localStorage.setItem('X-Token', json.result.token);
+                navigate("/")
             } else {
                 this.setState({
                     params: {
@@ -171,7 +172,5 @@ class UserState extends StoreModule {
         }
     }
 }
-
-
 
 export default UserState
