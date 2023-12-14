@@ -1,0 +1,24 @@
+.TopHeader {
+    display: grid;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 20px;
+  }
+
+.TopHeader button:hover {
+    cursor: pointer;
+}
+
+.TopHeader-link {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    align-items: center;
+    gap: 20px;
+}
+  
+.TopHeader-userTitle {
+    font-size: 13px;
+    line-height: 15px;
+    text-align: right;
+    color:#0087e9;
+}

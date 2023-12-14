@@ -11,7 +11,7 @@ function Input(props) {
   const [value, setValue] = useState(props.value);
 
   const onChangeDebounce = useCallback(
-    debounce(value => props.onChange(value, props.name), 600),
+    debounce(value => props.onChange(value, props.name), 300),
     [props.onChange, props.name]
   );
 
@@ -27,16 +27,20 @@ function Input(props) {
   const cn = bem('Input');
   return (
     <input
+    id={props.id}
+    name={props.name}
       className={cn({theme: props.theme})}
       value={value}
       type={props.type}
       placeholder={props.placeholder}
       onChange={onChange}
+      autoComplete='off'
     />
   )
 }
 
 Input.propTypes = {
+  id: PropTypes.string,
   value: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
