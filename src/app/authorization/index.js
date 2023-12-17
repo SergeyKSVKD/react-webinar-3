@@ -16,6 +16,7 @@ function Authorization() {
     const callbacks = {
         logout: useCallback(() => {
             store.actions.session.logout()
+            store.actions.profile.deleteProfile()
             navigate("/login")
         }, [store]),
     }

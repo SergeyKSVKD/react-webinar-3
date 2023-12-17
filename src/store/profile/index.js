@@ -66,6 +66,12 @@ class ProfileState extends StoreModule {
             });
         }
     }
+
+    deleteProfile() {
+        this.setState({
+            ...this.initState(),
+        })
+    }
 }
 
 export default ProfileState

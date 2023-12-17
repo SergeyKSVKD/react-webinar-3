@@ -30,14 +30,14 @@ function AuthLayot({ children }) {
             navigate(`/profile/${id}`)
         }
         setTimeout(() => {
-            if (location.pathname.includes('/profile')) {
+            if (localStorageToken && location.pathname.includes('/profile')) {
                 const url = location.pathname.slice(9, location.pathname.length + 1)
                 callbacks.getProfile(localStorageToken, url)
             }
             if (!localStorageToken && !auth && location.pathname.includes('/profile')) {
                 navigate("/login")
             }
-        }, [300]) // ответ > 300ms, ошибочная отрисовка ошибки доступа (403)
+        }, [300]) // ответ > 300ms, иногда проявляется неправильная отрисовка ошибки доступа (403)
     }, [auth, location.pathname])
 
     return (
