@@ -19,11 +19,11 @@ function Login() {
     }
 
     const callbacks = {
-        login: useCallback(({ login, password, navigate }) => store.actions.user.login({ login, password, navigate }), [store]),
+        login: useCallback(({ login, password, navigate }) => store.actions.session.login({ login, password, navigate }), [store]),
     }
 
-    const error = useSelector(state => state.user.params.error)
-    const token = useSelector(state => state.user.params.token)
+    const error = useSelector(state => state.session.params.error)
+    const auth = useSelector(state => state.session.auth)
 
     return (
         <>
@@ -39,7 +39,7 @@ function Login() {
                 t={authorizationT}
                 loginHandler={callbacks.login}
                 error={error}
-                token={token}
+                auth={auth}
             />
         </>
     )

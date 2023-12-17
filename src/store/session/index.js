@@ -1,6 +1,6 @@
 import StoreModule from "../module";
 
-class UserState extends StoreModule {
+class SessionState extends StoreModule {
 
     initState() {
         return {
@@ -18,6 +18,15 @@ class UserState extends StoreModule {
             },
             auth: false,
         }
+    }
+
+    changeAuthStatus(status) {
+        this.setState({
+            params: {
+                ...this.initState().params,
+            },
+            auth: status,
+        });
     }
 
     async login({ login, password, navigate }) {
@@ -173,4 +182,4 @@ class UserState extends StoreModule {
     }
 }
 
-export default UserState
+export default SessionState

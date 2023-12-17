@@ -4,7 +4,7 @@ import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 import Input from "../input";
 
-function Authentication({ t, loginHandler, error, token }) {
+function Authentication({ t, loginHandler, error, auth }) {
     const cn = bem("Authentication");
     const navigate = useNavigate()
     const [login, setLogin] = useState("");
@@ -19,12 +19,11 @@ function Authentication({ t, loginHandler, error, token }) {
     };
 
     useEffect(() => {
-        const localStorageToken = localStorage.getItem('X-Token') 
-        if (token && localStorageToken) {
+        if (auth) {
             setLogin("")
             setPassword("")
         }
-    }, [token])
+    }, [auth])
 
     return (
         <form className={cn()}

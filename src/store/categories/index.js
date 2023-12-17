@@ -29,6 +29,7 @@ class CategoriesState extends StoreModule {
         })
         list.unshift({ _id: '1', title: 'Все', parent: null, value: '' });
         const categories = []
+        // рекурсия?
         list.map(item => {
             if (item.parent === null) {
                 categories.push(item)
@@ -43,12 +44,32 @@ class CategoriesState extends StoreModule {
                         title: `- ${child.title}`
                     })
                 }
-                else {
+                else if (parent?.parent._id) {
+                    const child = list.find(el => el._id === item._id)
                     const parent = categories.find(el => el._id === child.parent._id)
+                    if (parent?.parent === null) {
+                        const index = categories.indexOf(parent)
+                        return categories.splice(index + 1, 0, {
+                            ...child,
+                            title: `- ${child.title}`
+                        })
+                    }
+                    else {
+                        const parent = categories.find(el => el._id === child.parent._id)
+                        const index = categories.indexOf(parent)
+                        return categories.splice(index + 1, 0, {
+                            ...child,
+                            title: `- - ${child.title}`
+                        })
+                    }
+                }
+                else {
+                    const child = list.find(el => el._id === item._id)
+                    const parent = categories.filter(el => el._id === child.parent._id) // undefined
                     const index = categories.indexOf(parent)
                     return categories.splice(index + 1, 0, {
                         ...child,
-                        title: `- - ${child.title}`
+                        title: `- - - ${child.title}`
                     })
                 }
             }

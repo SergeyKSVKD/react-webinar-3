@@ -4,7 +4,6 @@ import { cn as bem } from "@bem-react/classname";
 import './style.css';
 
 function TopHeader({ t, auth, username, id, logout }) {
-    const localStorageToken = localStorage.getItem('X-Token')
     const cn = bem("TopHeader");
 
     const navigate = useNavigate();
@@ -12,7 +11,7 @@ function TopHeader({ t, auth, username, id, logout }) {
     return (
         <div className={cn()}>
             {
-                auth && localStorageToken ?
+                auth ?
                     <div className={cn("link")}>
                         <Link to={`/profile/${id}`} className={cn("userTitle")}>{username}</Link>
                         <button onClick={() => logout()}>{t.exit}</button>
