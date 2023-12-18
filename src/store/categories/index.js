@@ -21,59 +21,38 @@ class CategoriesState extends StoreModule {
         this.setState({ ...this.getState(), waiting: true }, 'Загрузка списка категорий')
         const response = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
         const json = await response.json();
-        const list = json.result.items.map(item => {
+        let list = json.result.items.map(item => {
             return {
                 ...item,
                 value: item._id,
             }
         })
-        list.unshift({ _id: '1', title: 'Все', parent: null, value: '' });
-        const categories = []
-        // рекурсия?
-        list.map(item => {
-            if (item.parent === null) {
-                categories.push(item)
+
+        let categories = [];
+        const top = list.filter(item => item.parent === null);
+
+        const formattedCategories = (id, level = 0, separator = '- ') => {
+            const parent = list.find(item => item._id === id);
+            categories = [...categories, {
+                ...parent,
+                title: parent.parent?._id
+                    ? `${separator.repeat(level)}${parent.title}`
+                    : parent.title
+            }];
+
+            const children = list.filter(item => item.parent?._id === id);
+
+            if (children.length) {
+                children.map(item => {
+                    formattedCategories(item._id, (level + 1));
+                })
             }
-            if (item.parent?._id) {
-                const child = list.find(el => el._id === item._id)
-                const parent = categories.find(el => el._id === child.parent._id)
-                if (parent?.parent === null) {
-                    const index = categories.indexOf(parent)
-                    return categories.splice(index + 1, 0, {
-                        ...child,
-                        title: `- ${child.title}`
-                    })
-                }
-                else if (parent?.parent._id) {
-                    const child = list.find(el => el._id === item._id)
-                    const parent = categories.find(el => el._id === child.parent._id)
-                    if (parent?.parent === null) {
-                        const index = categories.indexOf(parent)
-                        return categories.splice(index + 1, 0, {
-                            ...child,
-                            title: `- ${child.title}`
-                        })
-                    }
-                    else {
-                        const parent = categories.find(el => el._id === child.parent._id)
-                        const index = categories.indexOf(parent)
-                        return categories.splice(index + 1, 0, {
-                            ...child,
-                            title: `- - ${child.title}`
-                        })
-                    }
-                }
-                else {
-                    const child = list.find(el => el._id === item._id)
-                    const parent = categories.filter(el => el._id === child.parent._id) // undefined
-                    const index = categories.indexOf(parent)
-                    return categories.splice(index + 1, 0, {
-                        ...child,
-                        title: `- - - ${child.title}`
-                    })
-                }
-            }
+        }
+
+        top.map(item => {
+            formattedCategories(item._id);
         })
+        categories.unshift({ _id: '1', title: 'Все', parent: null, value: '' });
         this.setState({ list: categories, waiting: false }, 'Загружен список категорий')
     }
 }

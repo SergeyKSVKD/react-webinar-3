@@ -87,8 +87,9 @@ class SessionState extends StoreModule {
             localStorage.removeItem('X-Token');
         }
     }
-
+    
     async logout() {
+        localStorage.removeItem('X-Token');
         if (this.getState().params.token) {
             this.setState({
                 params: {
@@ -110,7 +111,6 @@ class SessionState extends StoreModule {
                     this.setState({
                         ...this.initState(),
                     })
-                    localStorage.removeItem('X-Token');
                 } else {
                     this.setState({
                         params: {
