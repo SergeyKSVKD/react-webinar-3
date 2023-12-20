@@ -1,0 +1,48 @@
+.CommentsList {
+    margin-bottom: 20px;
+}
+
+.CommentsList p {
+    font-size: 14px;
+}
+
+.CommentsList-count {
+    font-size: 24px;
+}
+
+.CommentsList-comment-title {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 10px;
+}
+
+.CommentsList-answer {
+    color: #0087E9;
+    font-size: 12px;
+    line-height: 13.8px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.CommentsList-user {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.CommentsList-date {
+    font-size: 12px;
+    color: #666666;
+}
+
+.CommentsList-answer:hover { 
+    cursor: pointer;
+}
+
+.CommentsList-loading {
+    font-size: 14px;
+    font-weight: 700;
+    width: 100px;
+    text-align: center;
+    margin-bottom: 30px;
+}

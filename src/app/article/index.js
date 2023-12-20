@@ -8,6 +8,7 @@ import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
+import Comments from '../../containers/comments';
 import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
 import {useDispatch, useSelector} from 'react-redux';
@@ -49,6 +50,7 @@ function Article() {
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t}/>
       </Spinner>
+      <Comments />
     </PageLayout>
   );
 }

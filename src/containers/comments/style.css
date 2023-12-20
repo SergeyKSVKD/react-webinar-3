@@ -1,0 +1,32 @@
+.CommentsContainer {
+    padding: 0 40px 40px;
+}
+
+.CommentsContainer-link {
+    color: #0087E9;
+    font-size: 16px;
+    line-height: 18.4px;
+    padding: 0;
+    border: none;
+    background: none;
+    border-bottom: 2px solid #0087E9;
+}
+
+.CommentsContainer-link:hover { 
+    cursor: pointer;
+}
+
+.CommentsContainer-cancel {
+    color: #666666;
+    font-size: 16px;
+    line-height: 18.4px;
+    padding: 0;
+    border: none;
+    background: none;
+    border-bottom: 2px solid #666666;
+    margin-left: 5px;
+}
+
+.CommentsContainer-cancel:hover { 
+    cursor: pointer;
+}

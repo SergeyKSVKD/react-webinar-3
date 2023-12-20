@@ -1,0 +1,60 @@
+.CommentForm-link {
+    color: #0087E9;
+    font-size: 16px;
+    line-height: 18.4px;
+    padding: 0;
+    border: none;
+    background: none;
+    border-bottom: 2px solid #0087E9;
+}
+
+.CommentForm-link:hover { 
+    cursor: pointer;
+}
+
+.CommentForm-comment { 
+    height: 131px;
+}
+
+.CommentForm-title {
+    margin: 0 0 8px; 
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.CommentForm-send {
+    margin-top: 8px;
+}
+
+.CommentForm-send:hover { 
+    cursor: pointer;
+}
+
+.CommentForm-cancel {
+    margin-left: 10px;
+    margin-top: 8px;
+}
+
+.CommentForm-cancel:hover { 
+    cursor: pointer;
+}
+
+
+textarea {
+    padding: 5px;
+    width: calc(100% - 10px);
+    height: 66px;
+    resize: none;
+    color: #000000;
+    border: 1px solid #666666;
+}
+
+textarea:focus {
+    outline: none !important;
+    border: 1px solid #666666;
+  }
+
+textarea::placeholder {
+    font-size: 14px;
+    color: #000000;
+}
