@@ -22,7 +22,7 @@ function CommentsList({ count = 0, comments = [], answer, waiting }) {
                     >{format(new Date(item.dateCreate), "dd MMMM yyyy в HH:mm", { locale: ru })}</span>
                 </p>
                 <p>{item.text}</p>
-                <button className={cn("answer")} onClick={() => answer(item.author.profile.name)}>Ответить</button>
+                <button className={cn("answer")} onClick={() => answer(item.author.profile.name, item._id)}>Ответить</button>
             </div>) : <p className={cn("loading")}>...</p>}
         </>
     )

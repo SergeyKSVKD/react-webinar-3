@@ -19,6 +19,7 @@ function Comments() {
     const parent = useParams().id
     const [type, setType] = useState("comments")
     const [responding, setResponding] = useState("")
+    const [commentId, setCommentId] = useState("")
 
     const cn = bem('CommentsContainer');
 
@@ -44,9 +45,10 @@ function Comments() {
         user: state.session.user.profile?.name,
     }));
 
-    const changeToAnswer = (username) => {
+    const changeToAnswer = (username, comment_id) => {
         setResponding(username)
         setType("answer")
+        setCommentId(comment_id);
     }
     const changeToComment = () => {
         setType("comment")
@@ -80,6 +82,7 @@ function Comments() {
                     cancel={changeToComment}
                     user={select.user}
                     article_id={parent}
+                    comment_id={commentId}
                 />
             }
         </div>

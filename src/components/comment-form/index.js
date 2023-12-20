@@ -5,13 +5,22 @@ import { cn as bem } from '@bem-react/classname';
 import commentsActions from '../../store-redux/comments/actions'
 import { useDispatch } from 'react-redux';
 
-function CommentForm({ title = "Новый комментарий", text = "Текст", type = 'comment', cancel, user, article_id }) {
+function CommentForm({
+    title = "Новый комментарий",
+    text = "Текст",
+    type = 'comment',
+    cancel,
+    user,
+    article_id,
+    comment_id,
+}) {
     const dispatch = useDispatch();
     const [comment, setComment] = useState('')
+    let _id = article_id
 
     const postComment = (e) => {
         e.preventDefault()
-        dispatch(commentsActions.post(comment, user, article_id))
+        dispatch(commentsActions.post(comment, user, _id))
         setComment('')
     }
 

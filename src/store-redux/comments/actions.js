@@ -21,11 +21,12 @@ export default {
     }
   },
 
-  post: (text, user, article_id) => {
+  post: (text, user, _id) => {
+    console.log(text, user, _id);
     return async (dispatch, getState, services) => {
       try {
         const token = localStorage.getItem('token');
-        const comment = JSON.stringify({ "text": text, "parent": { "_id": article_id, "_type": "article" } });
+        const comment = JSON.stringify({ text: text, parent: { _id: _id, _type: "article" } });
         if (token && text) {
           const res = await services.api.request({
             url: "/api/v1/comments",
