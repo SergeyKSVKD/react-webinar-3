@@ -20,9 +20,12 @@ export default function listToTree(list, key = '_id') {
     }
 
     // Если элемент имеет родителя, то добавляем его в подчиненные родителя
-    if (item.parent?._id) {
+    if (item.parent?.[key]) {
       // Если родителя ещё нет в индексе, то индекс создаётся, ведь _id родителя известен
-      if (!trees[item.parent._id]) trees[item.parent[key]] = {children: []};
+      if (!trees[item.parent[key]]) {
+        trees[item.parent[key]] = {children: []};
+        roots[item.parent[key]] = trees[item.parent[key]]
+      }
       // Добавления в подчиненные родителя
       trees[item.parent[key]].children.push(trees[item[key]]);
       // Так как элемент добавлен к родителю, то он уже не является корневым

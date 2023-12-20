@@ -9,6 +9,7 @@ function CommentForm({
     title = "Новый комментарий",
     text = "Текст",
     type = 'comment',
+    setType,
     cancel,
     user,
     article_id,
@@ -16,12 +17,14 @@ function CommentForm({
 }) {
     const dispatch = useDispatch();
     const [comment, setComment] = useState('')
-    let _id = article_id
+    let id =  !comment_id ? article_id : comment_id
+    let typeC =  comment_id ? 'comment' : 'article' 
 
     const postComment = (e) => {
         e.preventDefault()
-        dispatch(commentsActions.post(comment, user, _id))
+        dispatch(commentsActions.post(comment, user, id, typeC))
         setComment('')
+        setType('comment')
     }
 
     const cn = bem('CommentForm');
@@ -46,6 +49,10 @@ CommentForm.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string,
     type: PropTypes.string,
+    cancel: PropTypes.func,
+    user: PropTypes.string,
+    article_id: PropTypes.number,
+    comment_id: PropTypes.number,
 };
 
 CommentForm.defaultProps = {
@@ -53,4 +60,4 @@ CommentForm.defaultProps = {
     }
 }
 
-export default (CommentForm);
+export default memo(CommentForm);

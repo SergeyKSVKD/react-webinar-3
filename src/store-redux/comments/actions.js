@@ -21,19 +21,18 @@ export default {
     }
   },
 
-  post: (text, user, _id) => {
-    console.log(text, user, _id);
+  post: (text, user, id, type) => {
     return async (dispatch, getState, services) => {
       try {
         const token = localStorage.getItem('token');
-        const comment = JSON.stringify({ text: text, parent: { _id: _id, _type: "article" } });
+        const comment = JSON.stringify({ text: text, parent: { _id: id, _type: type } });
         if (token && text) {
           const res = await services.api.request({
             url: "/api/v1/comments",
             method: "POST",
             body: comment
           })
-          console.log(res);
+          // console.log(res);
           dispatch({ type: 'comment/load-success', payload: { data: { ...res.data.result, author: { profile: { name: user, _id: res.data.result.author._id } } } } });
         } else console.log('Пользователь не авторизован или пустой текст комментария')
       } catch (e) {

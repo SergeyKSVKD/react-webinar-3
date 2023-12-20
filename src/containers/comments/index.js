@@ -63,6 +63,7 @@ function Comments() {
                         count={selectRedux.count}
                         answer={changeToAnswer}
                         waiting={selectRedux.waiting}
+                        user={select.user}
                     />
                     : null}
             </Spinner>
@@ -77,6 +78,7 @@ function Comments() {
                 :
                 <CommentForm
                     type={type}
+                    setType={setType}
                     title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
                     text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
                     cancel={changeToComment}
