@@ -22,7 +22,6 @@ function Comments() {
     const [commentId, setCommentId] = useState("")
 
     const cn = bem('CommentsContainer');
-
     const callbacks = {
         // Переход к авторизации
         onSignIn: useCallback(() => {
@@ -51,10 +50,11 @@ function Comments() {
         setCommentId(comment_id);
     }
     const changeToComment = () => {
-        setType("comment")
+        setType("comments")
         setCommentId("")
     }
 
+    console.log(select.exists, type);
     return (
         <div className={cn()}>
             <Spinner active={selectRedux.waiting}>
@@ -71,10 +71,13 @@ function Comments() {
                         comment_id={commentId}
                         setCommentId={setCommentId}
                         responding={responding}
+                        parent={parent}
+                        exists={select.exists}
+                        onSignIn={callbacks.onSignIn}
                     />
                     : null}
             </Spinner>
-            {!select.exists ?
+            {!select.exists && type === "comments" ?
                 <>
                     <button
                         className={cn("link")}
@@ -83,8 +86,8 @@ function Comments() {
                     {type === 'answer' ? <button className={cn('cancel')} onClick={changeToComment}>Отмена</button> : null}
                 </>
                 :
-                // type === "comments" && 
-                <CommentForm
+                select.exists && type === "comments" ? <CommentForm
+                    display={"block"}
                     type={type}
                     setType={setType}
                     title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
@@ -95,6 +98,7 @@ function Comments() {
                     comment_id={commentId}
                     setCommentId={setCommentId}
                 />
+                    : null
             }
         </div>
     );

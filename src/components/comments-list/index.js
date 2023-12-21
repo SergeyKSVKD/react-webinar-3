@@ -14,12 +14,15 @@ function CommentsList({
     answer,
     waiting,
     user,
-    // type = 'comment',
-    // setType,
-    // changeToComment,
-    // comment_id,
-    // setCommentId,
-    // responding,
+    type = 'comment',
+    setType,
+    changeToComment,
+    comment_id,
+    setCommentId,
+    responding,
+    parent,
+    exists,
+    onSignIn,
 }) {
     const cn = bem('CommentsList');
     const formattedComments = {
@@ -35,16 +38,8 @@ function CommentsList({
         })).slice(1)
     }
 
-    // const [itemId, setItemId] = useState("")
-    // const [node, setNode] = useState("")
+    const [itemId, setItemId] = useState("")
 
-    // useEffect(() => {
-    //     const node = document.querySelector(`[data-id="${itemId}"`)
-    //     setNode(document.querySelector(`[data-id="${itemId}"`))
-    //     console.log(node?.dataset?.id);
-    //     const form = createElement()
-    //     console.log(form);
-    // }, [itemId])
 
     return (
         <>
@@ -68,21 +63,39 @@ function CommentsList({
                     >{format(new Date(item.dateCreate), "dd MMMM yyyy в HH:mm", { locale: ru })}</span>
                 </p>
                 <p>{item.text}</p>
-                <button data-id={item._id} className={cn("answer")} onClick={(e) => {
-                    // setItemId(e.target.dataset.id)
-                    answer(item.author.profile.name, item._id)
-                }}>Ответить</button>
-                {/* {node?.dataset?.id === itemId && <CommentForm key={item._id}
-                    type={type}
-                    setType={setType}
-                    title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
-                    text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
-                    cancel={changeToComment}
-                    user={user}
-                    article_id={parent}
-                    comment_id={comment_id}
-                    setCommentId={setCommentId}
-                />} */}
+                {type != 'answer' ?
+                    <button data-id={item._id} className={cn("answer")} onClick={(e) => {
+                        setItemId(e.target.dataset.id)
+                        e.target.nextSibling.style.display = 'block'
+                        answer(item.author.profile.name, item._id)
+                    }}>Ответить</button>
+                    : null
+                }
+                {!exists ?
+                    <div style={{ display: "none" }}>
+                        <button
+                            className={cn("link")}
+                            onClick={onSignIn}>Войдите</button>
+                        , чтобы иметь возможность {type === 'answer' ? 'ответить.' : 'комментировать.'}
+                        {type === 'answer' ? <button className={cn('cancel')} onClick={(e) => {
+                            e.target.parentNode.style.display = "none"
+                            changeToComment()
+                        }}>Отмена</button> : null}
+                    </div>
+                    :
+                    <CommentForm key={item._id}
+                        display='none'
+                        type={type}
+                        setType={setType}
+                        title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
+                        text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
+                        cancel={changeToComment}
+                        user={user}
+                        article_id={parent}
+                        comment_id={comment_id}
+                        setCommentId={setCommentId}
+                    />
+                }
             </div>) : <p className={cn("loading")}>...</p>}
         </>
     )
