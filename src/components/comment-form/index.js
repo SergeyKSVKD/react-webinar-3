@@ -14,17 +14,20 @@ function CommentForm({
     user,
     article_id,
     comment_id,
+    setCommentId,
 }) {
     const dispatch = useDispatch();
     const [comment, setComment] = useState('')
     let id =  !comment_id ? article_id : comment_id
     let typeC =  comment_id ? 'comment' : 'article' 
+    // console.log(typeof(article_id));
 
     const postComment = (e) => {
         e.preventDefault()
         dispatch(commentsActions.post(comment, user, id, typeC))
         setComment('')
-        setType('comment')
+        setType('comments')
+        setCommentId('')
     }
 
     const cn = bem('CommentForm');
@@ -51,8 +54,9 @@ CommentForm.propTypes = {
     type: PropTypes.string,
     cancel: PropTypes.func,
     user: PropTypes.string,
-    article_id: PropTypes.number,
-    comment_id: PropTypes.number,
+    article_id: PropTypes.string,
+    comment_id: PropTypes.string,
+    setCommentId: PropTypes.func,
 };
 
 CommentForm.defaultProps = {

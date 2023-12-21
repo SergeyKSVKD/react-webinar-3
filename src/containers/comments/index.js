@@ -52,6 +52,7 @@ function Comments() {
     }
     const changeToComment = () => {
         setType("comment")
+        setCommentId("")
     }
 
     return (
@@ -59,11 +60,17 @@ function Comments() {
             <Spinner active={selectRedux.waiting}>
                 {selectRedux.comments ?
                     <CommentsList
-                        comments={selectRedux.comments}
                         count={selectRedux.count}
+                        comments={selectRedux.comments}
                         answer={changeToAnswer}
                         waiting={selectRedux.waiting}
                         user={select.user}
+                        type={type}
+                        setType={setType}
+                        changeToComment={changeToComment}
+                        comment_id={commentId}
+                        setCommentId={setCommentId}
+                        responding={responding}
                     />
                     : null}
             </Spinner>
@@ -76,6 +83,7 @@ function Comments() {
                     {type === 'answer' ? <button className={cn('cancel')} onClick={changeToComment}>Отмена</button> : null}
                 </>
                 :
+                // type === "comments" && 
                 <CommentForm
                     type={type}
                     setType={setType}
@@ -85,6 +93,7 @@ function Comments() {
                     user={select.user}
                     article_id={parent}
                     comment_id={commentId}
+                    setCommentId={setCommentId}
                 />
             }
         </div>
