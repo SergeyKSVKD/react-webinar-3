@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { ru } from 'date-fns/locale'
 import listToTree from "../../utils/list-to-tree";
 import treeToList from "../../utils/tree-to-list";
-import CommentForm from '../comment-form';
 
 function CommentsList({
     count = 0,
@@ -15,14 +14,6 @@ function CommentsList({
     waiting,
     user,
     type = 'comment',
-    setType,
-    changeToComment,
-    comment_id,
-    setCommentId,
-    responding,
-    parent,
-    exists,
-    onSignIn,
 }) {
     const cn = bem('CommentsList');
     const formattedComments = {
@@ -37,9 +28,6 @@ function CommentsList({
             level: level - 1,
         })).slice(1)
     }
-
-    const [itemId, setItemId] = useState("")
-
 
     return (
         <>
@@ -64,38 +52,12 @@ function CommentsList({
                 </p>
                 <p>{item.text}</p>
                 {type != 'answer' ?
-                    <button data-id={item._id} className={cn("answer")} onClick={(e) => {
-                        setItemId(e.target.dataset.id)
-                        e.target.nextSibling.style.display = 'block'
+                    <button className={cn("answer")} onClick={(e) => {
                         answer(item.author.profile.name, item._id)
                     }}>Ответить</button>
                     : null
                 }
-                {!exists ?
-                    <div style={{ display: "none" }}>
-                        <button
-                            className={cn("link")}
-                            onClick={onSignIn}>Войдите</button>
-                        , чтобы иметь возможность {type === 'answer' ? 'ответить.' : 'комментировать.'}
-                        {type === 'answer' ? <button className={cn('cancel')} onClick={(e) => {
-                            e.target.parentNode.style.display = "none"
-                            changeToComment()
-                        }}>Отмена</button> : null}
-                    </div>
-                    :
-                    <CommentForm key={item._id}
-                        display='none'
-                        type={type}
-                        setType={setType}
-                        title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
-                        text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
-                        cancel={changeToComment}
-                        user={user}
-                        article_id={parent}
-                        comment_id={comment_id}
-                        setCommentId={setCommentId}
-                    />
-                }
+                <div data-id={item._id} />
             </div>) : <p className={cn("loading")}>...</p>}
         </>
     )

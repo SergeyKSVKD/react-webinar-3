@@ -48,13 +48,16 @@ function Comments() {
         setResponding(username)
         setType("answer")
         setCommentId(comment_id);
+        setTimeout(() => {
+            const textareaField = document.getElementsByTagName('textarea')[0]
+            textareaField && textareaField.focus()
+        }, [])
     }
     const changeToComment = () => {
         setType("comments")
         setCommentId("")
     }
 
-    console.log(select.exists, type);
     return (
         <div className={cn()}>
             <Spinner active={selectRedux.waiting}>
@@ -66,40 +69,23 @@ function Comments() {
                         waiting={selectRedux.waiting}
                         user={select.user}
                         type={type}
-                        setType={setType}
-                        changeToComment={changeToComment}
-                        comment_id={commentId}
-                        setCommentId={setCommentId}
-                        responding={responding}
-                        parent={parent}
-                        exists={select.exists}
-                        onSignIn={callbacks.onSignIn}
                     />
                     : null}
             </Spinner>
-            {!select.exists && type === "comments" ?
-                <>
-                    <button
-                        className={cn("link")}
-                        onClick={callbacks.onSignIn}>Войдите</button>
-                    , чтобы иметь возможность {type === 'answer' ? 'ответить.' : 'комментировать.'}
-                    {type === 'answer' ? <button className={cn('cancel')} onClick={changeToComment}>Отмена</button> : null}
-                </>
-                :
-                select.exists && type === "comments" ? <CommentForm
-                    display={"block"}
-                    type={type}
-                    setType={setType}
-                    title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
-                    text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
-                    cancel={changeToComment}
-                    user={select.user}
-                    article_id={parent}
-                    comment_id={commentId}
-                    setCommentId={setCommentId}
-                />
-                    : null
-            }
+            <div data-id="comment" />
+            <CommentForm
+                exists={select.exists}
+                type={type}
+                setType={setType}
+                title={type === "answer" ? "Новый ответ" : "Новый комментарий"}
+                text={type === "answer" ? `Мой ответ для ${responding}` : "Текст"}
+                cancel={changeToComment}
+                onSignIn={callbacks.onSignIn}
+                user={select.user}
+                article_id={parent}
+                comment_id={commentId}
+                setCommentId={setCommentId}
+            />
         </div>
     );
 }

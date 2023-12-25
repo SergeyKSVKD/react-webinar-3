@@ -26,7 +26,7 @@ export default {
       try {
         const token = localStorage.getItem('token');
         const comment = JSON.stringify({ text: text, parent: { _id: id, _type: type } });
-        if (token && text) {
+        if (token && text && text.trim() !== "") {
           const res = await services.api.request({
             url: "/api/v1/comments",
             method: "POST",
